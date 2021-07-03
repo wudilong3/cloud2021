@@ -1,0 +1,29 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #open zhuce zhongxin dongtai creat route
+      routes:
+        - id: payment_rout
+#          uri: http://localhost:8001
+          uri: lb://CLOUD-PAYMENT-SERVICE
+          predicates:
+#            - Header=X-Request-Id,\d+
+#            - Cookie=username,zzyy
+            - Path=/payment/get/**
+
+
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka
+      #defaultZone: http://eureka7002.com:7002/eureka,http://eureka7001.com:7001/eureka
